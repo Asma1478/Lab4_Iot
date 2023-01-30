@@ -1,0 +1,39 @@
+﻿##########################################################################
+# docker compose pull
+# docker compose -p "iot" up -d
+# An .env file can also contain environment variables as:
+# COMPOSE_PROJECT_NAME=crowd-counter
+##########################################################################
+version: '3.9' # https://docs.docker.com/compose/compose-file/compose-versioning/
+
+services:
+
+ influxdb:
+   image: influxdb:latest
+   container_name: influxdb
+   environment:
+     - PUID=1001
+     - PGID=1001
+     - TZ=Europe/Stockholm
+   ports:
+     - '8086:8086'
+   volumes:
+     # using ~/influxdb2 data will end up in C:\Users\<username>\influxdb2
+     #- ~/influxdb2:/root/.influxdbv2
+     - ./data:/var/lib/influxdb2
+     - ./etc:/etc/influxdb2
+     # using ./data influxdb data will end up in local dir data
+   restart: unless-stopped
+
+ lora-ttn-cs:
+   image: asma22/iot-repo:lora-ttn-csharp
+   container_name: lora-ttn-app-cs
+   environment:
+     - PUID=1001
+     - PGID=1001
+     - TZ=Europe/Stockholm
+   volumes:
+     -  ./conf:/vm/conf
+   depends_on:
+     - influxdb
+   restart: unless-stopped

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="InfluxDB.Client" Version="4.10.0-dev.9936" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lab4_\Lab4_.csproj" />
+  </ItemGroup>
+
+</Project>
